@@ -4,17 +4,19 @@ import PackageDescription
 let package = Package(
     name: "quotescraper",
     platforms: [
-       .macOS(.v13)
+       .macOS(.v13),
+       .iOS(.v13),
     ],
     dependencies: [
-        // 💧 A server-side Swift web framework.
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.2"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.77.1"),
     ],
     targets: [
         .executableTarget(
             name: "App",
             dependencies: [
-                .product(name: "Vapor", package: "vapor")
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "SwiftSoup", package: "SwiftSoup"),
             ]
         ),
         .testTarget(name: "AppTests", dependencies: [
