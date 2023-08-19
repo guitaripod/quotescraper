@@ -2,14 +2,17 @@
 import XCTVapor
 
 final class AppTests: XCTestCase {
-    func testHelloWorld() async throws {
+    
+    func testQuotes() async throws {
         let app = Application(.testing)
         defer { app.shutdown() }
         try await configure(app)
-
-        try app.test(.GET, "hello", afterResponse: { res in
+        
+        try app.test(.GET, "quotes") { res in
             XCTAssertEqual(res.status, .ok)
-            XCTAssertEqual(res.body.string, "Hello, world!")
-        })
+            
+            let quotes = try res.content.decode([Quote].self)
+            XCTAssertFalse(quotes.isEmpty)
+        }
     }
 }
